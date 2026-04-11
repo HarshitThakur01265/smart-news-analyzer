@@ -1,10 +1,16 @@
+from transformers import pipeline
+
+bias_classifier = pipeline(
+    "zero-shot-classification",
+    model="facebook/bart-large-mnli"
+)
+
 def detect_bias(text):
-    bias_words = ["shocking", "truth", "secret", "exposed", "they dont want"]
+    labels = ["neutral", "biased", "manipulative"]
 
-    score = sum(word in text for word in bias_words)
+    result = bias_classifier(text, labels)
 
-    if score >= 2:
-        return "High"
-    elif score == 1:
-        return "Medium"
-    return "Low"
+    return {
+        "label": result['labels'][0],
+        "score": result['scores'][0]
+    }
