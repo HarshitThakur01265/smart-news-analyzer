@@ -3,7 +3,7 @@ from transformers import pipeline
 # Load zero-shot classification model
 topic_pipeline = pipeline("zero-shot-classification")
 
-def get_topic(text):
+def classify_topic(text):
     candidate_labels = [
         "Politics",
         "Technology",
